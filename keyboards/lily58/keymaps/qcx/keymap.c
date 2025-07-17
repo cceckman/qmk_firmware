@@ -5,14 +5,12 @@
 enum layer_number {
   _QWERTY = 0,
   _RAISE,
-  _ADMIN,
 };
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_QWERTY] = { ENCODER_CCW_CW(MS_WHLD, MS_WHLU),  ENCODER_CCW_CW(MS_WHLL, MS_WHLR)  },
     [_RAISE] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
-    [_ADMIN] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
 };
 #endif
 
@@ -59,16 +57,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_F1,     KC_F2,   KC_F3, KC_F4,      KC_F5,    KC_F6,                         KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   KC_GRV,  _______, _______, KC_UP,    _______,  _______,                       KC_PGUP, KC_KP_7, KC_KP_8, KC_KP_9, _______, _______,
   _______, _______, KC_LEFT, KC_DOWN, KC_RIGHT,  _______,                       KC_PGDN, KC_KP_4, KC_KP_5, KC_KP_6, _______, _______,
-  KC_LBRC, _______, _______, _______,  _______,  _______, _______,    TO(_ADMIN),  _______, KC_KP_1, KC_KP_2, KC_KP_3, _______, KC_RBRC,
+  KC_LBRC, _______, _______, _______,  _______,  _______, _______,    _______,  _______, KC_KP_1, KC_KP_2, KC_KP_3, _______, KC_RBRC,
                              _______,  _______,  _______, _______,    _______,  KC_KP_0, _______, _______
-),
-
-[_ADMIN] = LAYOUT(
-  QK_CLEAR_EEPROM,  QK_BOOTLOADER,   _______, _______,      _______,    _______,                         _______,   _______,   _______,  _______,  _______,  _______,
-  _______,  _______, _______, _______,    _______,  _______,                       _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______,  _______,                       _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______,  _______,  _______, _______,    _______,  _______, _______, _______, _______, _______, _______,
-                             _______,  _______,  _______, _______,    _______,  _______, _______, _______
 ),
 
 };
@@ -98,28 +88,30 @@ const char *read_keylogs(void);
 // void set_timelog(void);
 // const char *read_timelog(void);
 
-bool oled_task_user(void) {
-  if (is_keyboard_master()) {
-    // If you want to change the display of OLED, you need to change here
-    oled_write_ln(read_layer_state(), false);
-    oled_write_ln(read_keylog(), false);
-    oled_write_ln(read_keylogs(), false);
-    //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
-    //oled_write_ln(read_host_led_state(), false);
-    //oled_write_ln(read_timelog(), false);
-  } else {
-    oled_write(read_logo(), false);
-  }
-    return false;
-}
-#endif // OLED_ENABLE
+// Redefined elsewhere; how come this works for the HK build, but not for us?
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-#ifdef OLED_ENABLE
-    set_keylog(keycode, record);
-#endif
-    // set_timelog();
-  }
-  return true;
-}
+/*bool oled_task_user(void) {*/
+/*  if (!is_keyboard_master()) {*/
+/*    // If you want to change the display of OLED, you need to change here*/
+/*    oled_write_ln(read_layer_state(), false);*/
+/*    oled_write_ln(read_keylog(), false);*/
+/*    oled_write_ln(read_keylogs(), false);*/
+/*    //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);*/
+/*    //oled_write_ln(read_host_led_state(), false);*/
+/*    //oled_write_ln(read_timelog(), false);*/
+/*  } else {*/
+/*    oled_write(read_logo(), false);*/
+/*  }*/
+/*    return false;*/
+/*}*/
+#endif // OLED_ENABLE
+/**/
+/*bool process_record_user(uint16_t keycode, keyrecord_t *record) {*/
+/*  if (record->event.pressed) {*/
+/*#ifdef OLED_ENABLE*/
+/*    set_keylog(keycode, record);*/
+/*#endif*/
+/*    // set_timelog();*/
+/*  }*/
+/*  return true;*/
+/*}*/
